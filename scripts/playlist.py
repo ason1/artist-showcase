@@ -37,8 +37,28 @@ def search_tracks(sp, artist_uri):
 
     return list
 
+# Creation of playlist 
+def showcase_playlist(sp, artist_input):
+
+    playlist_title = 'THIS IS: ' + artist_input # Title of new playlist
+    sp.user_playlist_create(user=sp.me()['id'], name=playlist_title) 
+
+    user_playlists = sp.user_playlists(user=sp.me()['id']) # Extracts current user's playlist uris
+    playlist_uri = user_playlists['items'][0]['uri'] # Extracts first playlist's uri (newly created playlist)
+
+    return playlist_uri
+
+# Adds extracted tracklist to newly created artist playlist
+def playlist_pop(sp, tracklist, playlist_uri):
+
+    sp.user_playlist_add_tracks(user=sp.me()['id'], playlist_id=playlist_uri, tracks=tracklist)
+
 if __name__ == '__main__':
 
+    artist_input = 'knxwledge'
+
     sp = init_client()
-    URI = search_artist(sp, 'tyler the creator')
-    list = search_tracks(sp, URI)
+    artist_uri = search_artist(sp, artist_input)
+    list = search_tracks(sp, artist_uri)
+    playlist_uri = showcase_playlist(sp, artist_input)
+    playlist_pop(sp, list, playlist_uri)
