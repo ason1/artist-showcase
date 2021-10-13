@@ -26,7 +26,19 @@ def search_artist(sp, artist_name):
 
     return result['artists']['items'][0]['uri'] # Spotify URI for search artist
 
+# Searchess for the top tracks of specified artist
+def search_tracks(sp, artist_uri):
+
+    list = []
+    result = sp.artist_top_tracks(artist_uri) # Spotify catalog information of the artist's top tracks
+    
+    for track in result['tracks']: # Iteration through results
+        list.append(track['uri']) # Extract tracks' Spotify URI
+
+    return list
+
 if __name__ == '__main__':
 
     sp = init_client()
     URI = search_artist(sp, 'tyler the creator')
+    list = search_tracks(sp, URI)
