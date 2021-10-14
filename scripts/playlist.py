@@ -1,4 +1,4 @@
-import sys, spotipy, json
+import sys, spotipy
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 
 # Initiliazes Spotipy client with valid scope, credentials
@@ -40,7 +40,7 @@ def search_tracks(sp, artist_uri):
 # Creation of playlist 
 def showcase_playlist(sp, artist_input):
 
-    playlist_title = 'THIS IS: ' + artist_input # Title of new playlist
+    playlist_title = 'FEATURED ARTIST: ' + artist_input # Title of new playlist
     sp.user_playlist_create(user=sp.me()['id'], name=playlist_title) 
 
     user_playlists = sp.user_playlists(user=sp.me()['id']) # Extracts current user's playlist uris
@@ -55,7 +55,7 @@ def playlist_pop(sp, tracklist, playlist_uri):
 
 if __name__ == '__main__':
 
-    artist_input = 'knxwledge'
+    artist_input = input('Artist name: ')
 
     sp = init_client()
     artist_uri = search_artist(sp, artist_input)
