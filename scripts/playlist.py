@@ -15,6 +15,7 @@ def init_client():
     client_credentials = SpotifyClientCredentials() # API keys stored in environmental variables
     auth_manager = SpotifyOAuth(username=username, scope=scope) 
     sp = spotipy.Spotify(client_credentials_manager=client_credentials, auth_manager=auth_manager)
+    print("Initializing client successful!")
 
     return sp
 
@@ -23,6 +24,7 @@ def search_artist(sp, artist_name):
 
     query_artist_name = artist_name.replace(" ", "+") # Spotify query requires spaces encode with hex code %20 or +\
     result = sp.search(q=query_artist_name, limit=1, type='artist') 
+    print("Searching for artist...")
 
     return result['artists']['items'][0]['uri'] # Spotify URI for search artist
 
@@ -32,6 +34,7 @@ def search_tracks(sp, artist_uri):
     list = []
     result = sp.artist_top_tracks(artist_uri) # Spotify catalog information of the artist's top tracks
     
+    print("Searching for top tracks...")
     for track in result['tracks']: # Iteration through results
         list.append(track['uri']) # Extract tracks' Spotify URI
 
@@ -52,6 +55,7 @@ def showcase_playlist(sp, artist_input):
 def playlist_pop(sp, tracklist, playlist_uri):
 
     sp.user_playlist_add_tracks(user=sp.me()['id'], playlist_id=playlist_uri, tracks=tracklist)
+    print("Playlist created!")
 
 if __name__ == '__main__':
 
